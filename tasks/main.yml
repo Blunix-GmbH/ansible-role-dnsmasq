@@ -1,0 +1,25 @@
+- name: install dnsmasq
+  apt:
+    name: dnsmasq
+    state: present
+
+- name: uninstall dnscrypt-proxy
+  apt:
+    name: dnscrypt-proxy
+    state: absent
+
+- name: template dnsmasq config file
+  copy:
+    dest: "/etc/dnsmasq.d/99-custom.conf"
+    owner: root
+    group: root
+    mode: 0640
+    content: |
+      interface=
+      bind-interfaces
+      port=53
+      no-resolv
+      {% for dns_server_hosting_provider in dns_servers_hosting_provider %}
+      server={{ dns_server_hosting_provider }}
+      {% endfor %}
+  notify: restart dnsmasq
