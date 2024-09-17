@@ -10,7 +10,7 @@
 
 - name: template dnsmasq config file
   copy:
-    dest: "/etc/dnsmasq.d/99-custom.conf"
+    dest: "/etc/dnsmasq.d/99-ansible.conf"
     owner: root
     group: root
     mode: 0640
@@ -23,3 +23,10 @@
       server={{ dns_server_hosting_provider }}
       {% endfor %}
   notify: restart dnsmasq
+
+# Doc: https://unix.stackexchange.com/questions/460095/why-do-i-have-so-many-etc-resolv-conf-dhclient-new-xxxx-files
+- name: remove /etc/resolv.conf tmp files
+  cron:
+    job: "/usr/bin/rm -f /etc/resolv.conf.dhclient-new.* 2>/dev/null"
+    minute: 0
+
