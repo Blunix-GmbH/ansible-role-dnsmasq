@@ -1,0 +1,2 @@
+# Map dnsmasq role input to the provider resolver list from inventory.
+dnsmasq_dns_servers: "{{ dns_servers_hosting_provider }}"

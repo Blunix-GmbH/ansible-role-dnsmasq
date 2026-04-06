@@ -19,14 +19,14 @@
       bind-interfaces
       port=53
       no-resolv
-      {% for dns_server_hosting_provider in dns_servers_hosting_provider %}
-      server={{ dns_server_hosting_provider }}
+      {% for dnsmasq_dns_server in dnsmasq_dns_servers %}
+      server={{ dnsmasq_dns_server }}
       {% endfor %}
   notify: restart dnsmasq
 
 # Doc: https://unix.stackexchange.com/questions/460095/why-do-i-have-so-many-etc-resolv-conf-dhclient-new-xxxx-files
 - name: remove /etc/resolv.conf tmp files
   cron:
+    name: remove_etc_resolv_conf_temp_files
     job: "/usr/bin/rm -f /etc/resolv.conf.dhclient-new.* 2>/dev/null"
     minute: 0
-

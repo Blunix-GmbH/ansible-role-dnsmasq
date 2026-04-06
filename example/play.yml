@@ -1,0 +1,4 @@
+- name: setup dnsmasq
+  hosts: all
+  roles:
+    - role: ansible-role-dnsmasq
